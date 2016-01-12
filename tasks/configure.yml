@@ -37,9 +37,3 @@
     backup: no
   notify:
     - restart nginx
-
-- name: Allow nginx to open network connections
-  seboolean:
-    name: httpd_can_network_connect
-    state: yes
-    persistent: yes

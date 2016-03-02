@@ -8,6 +8,11 @@
     group: root
     mode: '0750'
 
+- name: Generate Diffie Hellman Group
+  command: "/usr/bin/openssl dhparam -out {{ nginx_common_ssl_path }}/dhparams.pem {{ nginx_common_ssl_dh_bits }}"
+  args:
+    creates: "{{ nginx_common_ssl_path }}/dhparams.pem"
+
 - name: Configure missing MIME types
   lineinfile:
     dest: /etc/nginx/mime.types

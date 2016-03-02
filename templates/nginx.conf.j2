@@ -9,6 +9,15 @@ events {
 }
 
 http {
+    ssl_dhparam {{ nginx_common_ssl_path }}/dhparams.pem;
+    ssl_protocols {{ nginx_common_ssl_protocols }};
+    ssl_ciphers '{{ nginx_common_ssl_ciphers }}';
+    ssl_prefer_server_ciphers {{ 'on' if nginx_common_ssl_prefer_server_ciphers else 'off' }};
+
+    {% if nginx_common_ssl_hsts_enabled -%}
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+    {% endif %}
+
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 

@@ -5,3 +5,4 @@
     name: nginx
     enabled: yes
     state: started
+  when: not is_docker

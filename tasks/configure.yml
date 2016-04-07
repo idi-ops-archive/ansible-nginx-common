@@ -7,13 +7,13 @@
     owner: root
     group: root
     mode: '0750'
-  when: '{{ nginx_common_ssl_enabled }}'
+  when: nginx_common_ssl_enabled
 
 - name: Generate Diffie Hellman Group
   command: "/usr/bin/openssl dhparam -out {{ nginx_common_ssl_path }}/dhparams.pem {{ nginx_common_ssl_dh_bits }}"
   args:
     creates: "{{ nginx_common_ssl_path }}/dhparams.pem"
-  when: '{{ nginx_common_ssl_enabled }}'
+  when: nginx_common_ssl_enabled
 
 - name: Configure missing MIME types
   lineinfile:

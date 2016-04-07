@@ -5,6 +5,7 @@ nginx_common_packages:
 
 nginx_worker_processes: 2
 
+nginx_common_ssl_enabled: no
 nginx_common_ssl_path: /etc/nginx/ssl
 nginx_common_ssl_dh_bits: 2048
 nginx_common_ssl_protocols: TLSv1 TLSv1.1 TLSv1.2

@@ -24,6 +24,7 @@
   with_items:
     - "    font/ttf                              ttf;"
     - "    font/opentype                         otf;"
+    - "    application/json                      map;"
   notify:
     - restart nginx
 

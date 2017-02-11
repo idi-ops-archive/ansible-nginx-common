@@ -1,7 +1,7 @@
 ---
 
 nginx_common_packages:
-  - https://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.10.2-1.el7.ngx.x86_64.rpm
+  - https://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.10.3-1.el7.ngx.x86_64.rpm
 
 nginx_worker_processes: 2
 

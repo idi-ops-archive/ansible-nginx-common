@@ -1,13 +1,66 @@
 ---
 
-- include: install.yml
-  tags:
-    - install
+- name: Enable nginx repository
+  package:
+    name: '{{ nginx_common_repo_package }}'
+    state: present
 
-- include: configure.yml
-  tags:
-    - configure
+- name: Install nginx
+  yum:
+    name: "{{ nginx_common_package }}"
+    state: present
 
-- include: deploy.yml
-  tags:
-    - deploy
+- name: Create area for SSL certificates
+  file:
+    path: "{{ nginx_common_ssl_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  when: nginx_common_ssl_enabled
+
+- name: Generate Diffie Hellman Group
+  command: "/usr/bin/openssl dhparam -out {{ nginx_common_ssl_path }}/dhparams.pem {{ nginx_common_ssl_dh_bits }}"
+  args:
+    creates: "{{ nginx_common_ssl_path }}/dhparams.pem"
+  when: nginx_common_ssl_enabled
+
+- name: Configure missing MIME types
+  lineinfile:
+    dest: /etc/nginx/mime.types
+    insertafter: '^types '
+    line: "{{ item }}"
+    backup: no
+  with_items:
+    - "    font/ttf                              ttf;"
+    - "    font/opentype                         otf;"
+    - "    application/json                      map;"
+  notify:
+    - restart nginx
+
+- name: Remove nginx default config files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/nginx/conf.d/default.conf
+    - /etc/nginx/conf.d/example_ssl.conf
+  notify:
+    - restart nginx
+
+- name: Copy configuration file
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - restart nginx
+
+- name: Enable and start nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: started

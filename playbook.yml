@@ -1,0 +1,5 @@
+- hosts: all
+
+  roles:
+    - role: ansible-nginx-common
+      nginx_common_ssl_enabled: yes

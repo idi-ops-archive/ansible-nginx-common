@@ -2,3 +2,7 @@
 
 # Appends version if nginx_common_version is defined
 nginx_common_package: 'nginx{% if nginx_common_version is defined %}-{{ nginx_common_version }}{% endif %}'
+
+# Additional packages that may be required
+nginx_common_additional_packages:
+  - libsemanage-python

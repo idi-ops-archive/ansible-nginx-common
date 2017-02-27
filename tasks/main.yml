@@ -10,6 +10,12 @@
     name: "{{ nginx_common_package }}"
     state: present
 
+- name: Install additional packages
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ nginx_common_additional_packages }}'
+
 - name: Create area for SSL certificates
   file:
     path: "{{ nginx_common_ssl_path }}"

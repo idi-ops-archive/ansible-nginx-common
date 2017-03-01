@@ -29,6 +29,10 @@ http {
 
     access_log  /var/log/nginx/access.log  main;
 
+    {% if nginx_common_resolvers is defined -%}
+    resolver {{ nginx_common_resolvers | join(' ') }};
+    {% endif %}
+
     sendfile        on;
     tcp_nopush      on;
     tcp_nodelay     on;

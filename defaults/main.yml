@@ -5,6 +5,12 @@ nginx_common_packages:
 
 nginx_worker_processes: 2
 
+# Nginx is not able to use the system resolvers (/etc/resolv.conf) so it needs
+# to be told what are the DNS resolvers (specially if using upstream servers)
+#nginx_common_resolvers:
+#  - 8.8.8.8
+#  - 8.8.4.4
+
 nginx_common_ssl_enabled: no
 nginx_common_ssl_path: /etc/nginx/ssl
 nginx_common_ssl_dh_bits: 2048

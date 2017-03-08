@@ -1,7 +1,12 @@
 ---
-
 galaxy_info:
-  description: Ansible role that installs and configures Nginx
-  min_ansible_version: 1.2
+  description: Provides base Nginx environment for more complex roles
+  license: MIT
+  min_ansible_version: 2.2
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  categories:
+  - system
 dependencies: []
-  

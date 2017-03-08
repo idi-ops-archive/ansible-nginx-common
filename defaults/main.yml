@@ -1,9 +1,10 @@
 ---
 
-nginx_common_packages:
-  - https://nginx.org/packages/centos/7/x86_64/RPMS/nginx-1.10.3-1.el7.ngx.x86_64.rpm
+# Nginx package version (will install latest if version is not specified)
+#nginx_common_version: 1.10.3
 
-nginx_worker_processes: 2
+# Number of worker processes (integer, 'auto' for one process per CPU)
+nginx_worker_processes: 'auto'
 
 # Nginx is not able to use the system resolvers (/etc/resolv.conf) so it needs
 # to be told what are the DNS resolvers (specially if using upstream servers)

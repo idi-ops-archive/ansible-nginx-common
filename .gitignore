@@ -5,3 +5,4 @@
 .vagrant
 pytestdebug.log
 venv
+__pycache__

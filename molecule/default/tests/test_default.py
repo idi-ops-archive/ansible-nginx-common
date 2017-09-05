@@ -6,9 +6,30 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
-def test_hosts_file(host):
-    f = host.file('/etc/hosts')
+def test_nginx_config_file(host):
+    f = host.file('/etc/nginx/nginx.conf')
 
     assert f.exists
     assert f.user == 'root'
     assert f.group == 'root'
+    assert f.mode == 0o644
+
+
+def test_nginx_service(host):
+    s = host.service('nginx')
+
+    assert s.is_enabled
+    assert s.is_running
+
+
+def test_sshd_process(host):
+    p = host.process.filter(user='root', comm='nginx')
+
+    assert len(p) >= 1
+
+
+# FIX: Port to be tested should be retrieved from Ansible variables
+def test_sshd_socket(host):
+    s = host.socket("tcp://0.0.0.0:80")
+
+    assert s.is_listening

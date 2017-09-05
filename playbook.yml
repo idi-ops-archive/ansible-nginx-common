@@ -1,0 +1,11 @@
+- hosts: all
+
+  pre_tasks:
+
+    - name: Install test dependencies
+      package:
+        name: net-tools
+        state: present
+
+  roles:
+    - role: ansible-nginx-common

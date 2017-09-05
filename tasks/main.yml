@@ -1,13 +1,39 @@
 ---
+- name: Enable nginx repository
+  package:
+    name: '{{ nginx_common_repo_package }}'
+    state: present
 
-- include: install.yml
-  tags:
-    - install
+- name: Install nginx
+  package:
+    name: 'nginx-{{ nginx_common_version }}'
+    state: present
 
-- include: configure.yml
-  tags:
-    - configure
+- name: Install additional packages
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ nginx_common_additional_packages }}'
 
-- include: deploy.yml
-  tags:
-    - deploy
+- name: Generate Diffie Hellman Group
+  command: >
+    /usr/bin/openssl dhparam
+    -out /etc/nginx/dhparams.pem
+    '{{ nginx_common_ssl_dh_bits }}'
+  args:
+    creates: /etc/nginx/dhparams.pem
+  when: nginx_common_ssl_enabled
+
+- name: Configure nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    backup: false
+  notify:
+    - restart nginx
+
+- name: Enable and start nginx
+  service:
+    name: nginx
+    enabled: true
+    state: started
